@@ -1,0 +1,15 @@
+fastapi
+sqlalchemy
+alembic
+asyncpg
+uvicorn
+pydantic-settings
+pydantic[email]
+psycopg2
+python-dotenv
+werkzeug
+PyJWT
+pytz
+geopy
+qrcode[pil]==7.4
+pillow

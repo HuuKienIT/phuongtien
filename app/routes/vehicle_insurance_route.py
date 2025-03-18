@@ -17,6 +17,11 @@ async def get_all_insurances(page: int, page_size: int, db: AsyncSession = Depen
     service = VehicleInsuranceService(db)
     return await service.get_all_insurances(page, page_size)
 
+@vehicle_insurance_router.get("/vehicle/{vehicle_id}")
+async def get_insurances_by_vehicle_id(vehicle_id: int, db: AsyncSession = Depends(get_db)):
+    service = VehicleInsuranceService(db)
+    return await service.get_insurances_by_vehicle_id(vehicle_id)
+
 
 @vehicle_insurance_router.post("/")
 async def create_insurance(data: VehicleInsuranceRequest, db: AsyncSession = Depends(get_db)):

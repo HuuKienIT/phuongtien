@@ -4,7 +4,8 @@ import uvicorn
 from starlette.middleware.cors import CORSMiddleware
 
 from .data import init_db, get_db, seed_data
-from .routes import station_router, station_vehicle_router, vehicle_router, vehicle_insurance_router, vehicle_maintenance_router
+from .routes import (station_router, station_vehicle_router, vehicle_router,
+                     vehicle_insurance_router, vehicle_maintenance_router, vehicle_registration_router)
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
@@ -16,9 +17,9 @@ async def lifespan(_app: FastAPI):
     yield
 
 app = FastAPI(
-    title="User Management API",
+    title="Vehicle Management API",
     version="1.0",
-    description="API quản lý người dùng với FastAPI",
+    description="API quản lý trạm xe và xe với FastAPI",
     docs_url="/docs",
     redoc_url="/redoc",
     lifespan=lifespan
@@ -29,6 +30,7 @@ app.include_router(station_vehicle_router)
 app.include_router(vehicle_router)
 app.include_router(vehicle_insurance_router)
 app.include_router(vehicle_maintenance_router)
+app.include_router(vehicle_registration_router)
 
 app.add_middleware(
     CORSMiddleware,

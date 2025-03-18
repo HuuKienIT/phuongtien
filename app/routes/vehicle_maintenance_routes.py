@@ -17,6 +17,10 @@ async def get_all_maintenances(page: int, page_size: int, db: AsyncSession = Dep
     service = VehicleMaintenanceService(db)
     return await service.get_all_maintenances(page, page_size)
 
+@vehicle_maintenance_router.get("/vehicle/{vehicle_id}")
+async def get_maintenance_by_vehicle_id(vehicle_id: int, db: AsyncSession = Depends(get_db)):
+    service = VehicleMaintenanceService(db)
+    return await service.get_maintenance_by_vehicle_id(vehicle_id)
 
 @vehicle_maintenance_router.post("/")
 async def create_maintenance(data: VehicleMaintenanceRequest, db: AsyncSession = Depends(get_db)):
@@ -28,7 +32,6 @@ async def create_maintenance(data: VehicleMaintenanceRequest, db: AsyncSession =
 async def update_maintenance(maintenance_id: int, data: VehicleMaintenanceRequest, db: AsyncSession = Depends(get_db)):
     service = VehicleMaintenanceService(db)
     return await service.update_maintenance(maintenance_id, data.model_dump())
-
 
 @vehicle_maintenance_router.delete("/{maintenance_id}/soft")
 async def delete_maintenance(maintenance_id: int, db: AsyncSession = Depends(get_db)):

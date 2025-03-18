@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from ..repositories import (StationRepository, StationVehicleRepository, VehicleRepository,
-                            VehicleInsuranceRepository, VehicleMaintenanceRepository)
+                            VehicleInsuranceRepository, VehicleMaintenanceRepository, VehicleRegistrationRepository)
 
 class UnitOfWork:
     def __init__(self, db: AsyncSession):
@@ -12,6 +12,7 @@ class UnitOfWork:
         self.vehicle_repository = VehicleRepository(db)
         self.vehicle_insurance_repository = VehicleInsuranceRepository(db)
         self.vehicle_maintenance_repository = VehicleMaintenanceRepository(db)
+        self.vehicle_registration_repository = VehicleRegistrationRepository(db)
 
     async def rollback(self):
         if self.db:

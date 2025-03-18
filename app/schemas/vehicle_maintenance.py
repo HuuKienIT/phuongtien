@@ -8,18 +8,19 @@ class VehicleMaintenanceRequest(BaseModel):
     maintenance_type: str
     start_date: datetime
     end_date: Optional[datetime] = None
-    cost: int
+    cost: float
     maintenance_details: Optional[str] = None
-
+    status: str
 
 class VehicleMaintenanceResponse(BaseModel):
-    maintenance_id: int
+    id: int
     vehicle_id: int
     maintenance_type: str
     start_date: datetime
     end_date: Optional[datetime] = None
-    cost: int
+    cost: float
     maintenance_details: Optional[str] = None
+    status: str
 
     class Config:
         from_attributes = True

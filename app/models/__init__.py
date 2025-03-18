@@ -1,4 +1,4 @@
-from .models import (Base, Station, StationVehicle, Vehicle, VehicleInsurance, VehicleTracking,
-                     VehicleMaintenance, VehicleBatteryLog)
-__all__ = ['Base', 'Station', 'StationVehicle', 'Vehicle', 'VehicleInsurance', 'VehicleTracking',
+from .models import (Base, Station, StationVehicle, VehicleModel, Vehicle, VehicleInsurance,
+                     VehicleMaintenance, VehicleRegistration, VehicleTracking, VehicleBatteryLog)
+__all__ = ['Base', 'Station', 'StationVehicle', 'VehicleModel', 'Vehicle', 'VehicleInsurance', 'VehicleRegistration', 'VehicleTracking',
            'VehicleMaintenance', 'VehicleBatteryLog']

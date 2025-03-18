@@ -1,4 +1,4 @@
-from fastapi import  HTTPException
+from fastapi import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from ..utils import ApiResponse
 from ..unit_of_work import UnitOfWork
@@ -11,20 +11,29 @@ class VehicleMaintenanceService:
 
     async def get_maintenance_by_id(self, maintenance_id: int) -> ApiResponse[VehicleMaintenanceResponse]:
         async with self.uow as uow:
-            maintenance = await uow.vehicle_maintenance_repository.get_by(maintenance_id=maintenance_id)
+            maintenance = await uow.vehicle_maintenance_repository.get_by(filters={"id": maintenance_id})
             if not maintenance:
                 raise HTTPException(status_code=404, detail="Maintenance not found")
             return ApiResponse(status=200, message="Maintenance found",
                                data=VehicleMaintenanceResponse.model_validate(maintenance))
 
+    async def get_maintenance_by_vehicle_id(self, vehicle_id: int) -> ApiResponse[list]:
+        async with self.uow as uow:
+            result = await uow.vehicle_maintenance_repository.get_all(filters={"vehicle_id": vehicle_id})
+            return ApiResponse(
+                status=200,
+                message="Maintenances retrieved",
+                data=[VehicleMaintenanceResponse.model_validate(maintenance) for maintenance in result["items"]]
+            )
+
     async def get_all_maintenances(self, page: int, page_size: int) -> ApiResponse[dict]:
         async with self.uow as uow:
-            result = await uow.vehicle_maintenance_repository.get_all(page, page_size)
+            result = await uow.vehicle_maintenance_repository.get_all(page=page, page_size=page_size)
             return ApiResponse(
                 status=200,
                 message="Maintenances retrieved",
                 data={
-                    "maintenances": [VehicleMaintenanceResponse.model_validate(maintenance) for maintenance in result["items"]],
+                    "maintenances": [VehicleMaintenanceResponse.model_validate(m) for m in result["items"]],
                     "total_items": result.get("total_items"),
                     "current_page": result.get("current_page"),
                     "page_size": result.get("page_size")
@@ -40,7 +49,7 @@ class VehicleMaintenanceService:
 
     async def update_maintenance(self, maintenance_id: int, data: dict) -> ApiResponse[VehicleMaintenanceResponse]:
         async with self.uow as uow:
-            maintenance = await uow.vehicle_maintenance_repository.get_by(maintenance_id=maintenance_id)
+            maintenance = await uow.vehicle_maintenance_repository.get_by(filters={"id": maintenance_id})
             if not maintenance:
                 raise HTTPException(status_code=404, detail="Maintenance not found")
             updated_maintenance = await uow.vehicle_maintenance_repository.update(maintenance, data)
@@ -50,7 +59,7 @@ class VehicleMaintenanceService:
 
     async def delete_maintenance(self, maintenance_id: int) -> ApiResponse[None]:
         async with self.uow as uow:
-            maintenance = await uow.vehicle_maintenance_repository.get_by(maintenance_id=maintenance_id)
+            maintenance = await uow.vehicle_maintenance_repository.get_by(filters={"id": maintenance_id})
             if not maintenance:
                 raise HTTPException(status_code=404, detail="Maintenance not found")
             await uow.vehicle_maintenance_repository.soft_delete(maintenance)

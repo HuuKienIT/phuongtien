@@ -2,11 +2,11 @@
 FROM python:3.11-slim
 
 # Thiết lập thư mục làm việc
-# WORKDIR /Identity
+WORKDIR /Identity
 
 # Cài đặt libpq-dev để hỗ trợ psycopg2
-# RUN apt-get update && apt-get install -y libpq-dev gcc
-# RUN apt-get update && apt-get install -y curl
+RUN apt-get update && apt-get install -y libpq-dev gcc
+RUN apt-get update && apt-get install -y curl
 # Sao chép requirements.txt vào thư mục làm việc
 COPY requirements.txt ./
 

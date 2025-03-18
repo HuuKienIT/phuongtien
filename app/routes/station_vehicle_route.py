@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from ..data import get_db
 from ..services import StationVehicleService
-from ..schemas import StationVehicleRequest
+from ..schemas import StationVehicleRequest, BulkStationVehicleRequest
 
 station_vehicle_router = APIRouter(prefix="/station-vehicles", tags=["Station Vehicles"])
 
@@ -20,6 +20,11 @@ async def get_all_station_vehicles(page: int, page_size: int, db: AsyncSession =
 async def create_station_vehicle(data: StationVehicleRequest, db: AsyncSession = Depends(get_db)):
     service = StationVehicleService(db)
     return await service.create_station_vehicle(data.model_dump())
+
+@station_vehicle_router.post("/bulk")
+async def create_bulk_station_vehicles(data: BulkStationVehicleRequest, db: AsyncSession = Depends(get_db)):
+    service = StationVehicleService(db)
+    return await service.create_bulk_station_vehicles(data.model_dump())
 
 @station_vehicle_router.put("/{record_id}")
 async def update_station_vehicle(record_id: int, data: StationVehicleRequest, db: AsyncSession = Depends(get_db)):
