@@ -4,12 +4,12 @@ alembic
 asyncpg
 uvicorn
 pydantic-settings
-pydantic[email]
+# pydantic[email]
 psycopg2
 python-dotenv
 werkzeug
 PyJWT
 pytz
-geopy
-qrcode[pil]==7.4
-pillow
+# geopy
+# qrcode[pil]==7.4
+# pillow
