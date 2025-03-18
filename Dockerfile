@@ -8,7 +8,7 @@ WORKDIR /phuongtien
 # RUN apt-get update && apt-get install -y libpq-dev gcc
 # RUN apt-get update && apt-get install -y curl
 # Sao chép requirements.txt vào thư mục làm việc
-COPY requirements.txt ./
+COPY requirements.txt .
 
 # Cài đặt các thư viện từ requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
